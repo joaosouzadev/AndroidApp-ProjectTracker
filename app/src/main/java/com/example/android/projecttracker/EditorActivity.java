@@ -10,22 +10,32 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.example.android.projecttracker.data.ProjectContract;
+
 /**
  * Created by JOAO on 30-Apr-18.
  */
 
 public class EditorActivity extends AppCompatActivity {
 
-    /** EditText field to enter the project's name */
+    /**
+     * EditText field to enter the project's name
+     */
     private EditText mNameEditText;
 
-    /** EditText field to enter the project's client */
+    /**
+     * EditText field to enter the project's client
+     */
     private EditText mClientEditText;
 
-    /** EditText field to enter the project's price */
+    /**
+     * EditText field to enter the project's price
+     */
     private EditText mPriceEditText;
 
-    /** EditText field to enter the project's type */
+    /**
+     * EditText field to enter the project's type
+     */
     private Spinner mProjectSpinner;
 
     /**
@@ -55,14 +65,14 @@ public class EditorActivity extends AppCompatActivity {
     private void setupSpinner() {
         // Create adapter for spinner. The list options are from the String array it will use
         // The spinner will use the default layout
-        ArrayAdapter genderSpinnerAdapter = ArrayAdapter.createFromResource(this,
-                R.array.array_gender_options, android.R.layout.simple_spinner_item);
+        ArrayAdapter projectSpinnerAdapter = ArrayAdapter.createFromResource(this,
+                R.array.array_project_options, android.R.layout.simple_spinner_item);
 
         // Specify dropdown layout style - simple list view with 1 item per line
-        genderSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        projectSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
 
         // Apply the adapter to the spinner
-        mProjectSpinner.setAdapter(genderSpinnerAdapter);
+        mProjectSpinner.setAdapter(projectSpinnerAdapter);
 
         // Set the integer mSelected to the constant values
         mProjectSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -71,12 +81,12 @@ public class EditorActivity extends AppCompatActivity {
                 String selection = (String) parent.getItemAtPosition(position);
                 if (!TextUtils.isEmpty(selection)) {
                     if (selection.equals(getString(R.string.project_type_frontend))) {
-                        mProjectType = PetsEntry.GENDER_MALE; // Male
+                        mProjectType = ProjectContract.ProjectEntry.TYPE_FRONTEND; // Front-end
                     } else if (selection.equals(getString(R.string.project_type_backend))) {
-                        mProjectType = PetsEntry.GENDER_FEMALE; // Female
-                    } else if (selection.equals(getString(R.string.project_type_androidapp))){
-                        mProjectType = PetsEntry.GENDER_UNKNOWN; // Unknown
-                    }else{
+                        mProjectType = ProjectContract.ProjectEntry.TYPE_BACKEND; // Back-end
+                    } else if (selection.equals(getString(R.string.project_type_androidapp))) {
+                        mProjectType = ProjectContract.ProjectEntry.TYPE_ANDROIDAPP; // Android App
+                    } else {
                         mProjectType = "Tipo de Projeto não selecionado"; // nada foi selecionado
                     }
                 }

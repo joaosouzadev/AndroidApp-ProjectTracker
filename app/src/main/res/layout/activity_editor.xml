@@ -86,7 +86,7 @@
         <EditText
             android:id="@+id/edit_project_client"
             android:hint="Client Name"
-            android:inputType="number"
+            android:inputType="textCapWords"
             style="@style/EditorFieldStyle" />
     </LinearLayout>
 
