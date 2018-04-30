@@ -1,5 +1,7 @@
 package com.example.android.projecttracker;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
@@ -12,8 +14,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.android.projecttracker.data.ProjectContract;
+import com.example.android.projecttracker.data.ProjectDbHelper;
 
 /**
  * Created by JOAO on 30-Apr-18.
@@ -102,6 +106,33 @@ public class EditorActivity extends AppCompatActivity {
         });
     }
 
+    private void inserProject(){
+
+        String nameString = mNameEditText.getText().toString().trim();
+        String clientString = mClientEditText.getText().toString().trim();
+        String priceString = mPriceEditText.getText().toString().trim();
+        int price = Integer.parseInt(priceString);
+
+        ProjectDbHelper mDbHelper = new ProjectDbHelper(this);
+
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(ProjectContract.ProjectEntry.COLUMN_PROJECT_NAME, nameString);
+        values.put(ProjectContract.ProjectEntry.COLUMN_PROJECT_TYPE, mProjectType);
+        values.put(ProjectContract.ProjectEntry.COLUMN_PROJECT_CLIENT, clientString);
+        values.put(ProjectContract.ProjectEntry.COLUMN_PROJECT_PRICE, price);
+
+        long newRowId = db.insert(ProjectContract.ProjectEntry.TABLE_NAME, null, values);
+
+        if(newRowId == -1){
+            Toast.makeText(this, "Error while saving project information", Toast.LENGTH_SHORT).show();
+        } else{
+            Toast.makeText(this, "Project saved with row id: " + newRowId, Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options from the res/menu/menu_editor.xml file.
@@ -116,7 +147,7 @@ public class EditorActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
-                //inserProject();
+                inserProject();
                 finish();
                 return true;
             // Respond to a click on the "Clear" menu option
