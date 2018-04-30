@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ProjectTracker</string>
+
+    <string name="project_type_frontend">Web Front-End</string>
+
+    <string name="project_type_backend">Web Back-End</string>
+
+    <string name="project_type_androidapp">Android App</string>
 </resources>
