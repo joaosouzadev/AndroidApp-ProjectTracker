@@ -32,23 +32,29 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mDbHelper = new ProjectDbHelper(this);
+
+        //read();
     }
 
     // atualiza a UI com o número certo de rows após sair do editoractivity
     @Override
     protected void onStart() {
         super.onStart();
-        displayDatabaseInfo();
+        displayDatabaseInfo(read());
     }
 
     /**
      * Temporary helper method to display information in the onscreen TextView about the state of
      * the projects database.
      */
-    private void displayDatabaseInfo() {
+
         // To access our database, we instantiate our subclass of SQLiteOpenHelper
         // and pass the context, which is the current activity.
+
+
+        private Cursor read(){
         ProjectDbHelper mDbHelper = new ProjectDbHelper(this);
+
 
         // Create and/or open a database to read from it
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -71,12 +77,15 @@ public class MainActivity extends AppCompatActivity {
                 null,
                 null);
 
+            return cursor;
+        }
+
+    private void displayDatabaseInfo(Cursor cursor) {
         TextView displayView = (TextView) findViewById(R.id.text_view_projects);
 
         try {
             // Display the number of rows in the Cursor (which reflects the number of rows in the
-            // pets table in the database).
-
+            // projects table in the database).
 
             displayView.setText("The projects table contains  " + cursor.getCount() + " projects.\n\n");
             displayView.append(ProjectContract.ProjectEntry._ID + " - " +
